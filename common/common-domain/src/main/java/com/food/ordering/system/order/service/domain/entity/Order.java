@@ -1,7 +1,7 @@
-package com.food.ordering.system.domain.entity;
+package com.food.ordering.system.order.service.domain.entity;
 
-import com.food.ordering.system.domain.exception.OrderDomainException;
-import com.food.ordering.system.domain.valueobject.*;
+import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
+import com.food.ordering.system.order.service.domain.valueobject.*;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -34,26 +34,26 @@ public class Order extends AggregateRoot<OrderId> {
         return new Builder();
     }
 
-    public void pay() {
+    public void pay() throws OrderDomainException {
         if (orderStatus != OrderStatus.PENDING)
             throw new OrderDomainException("Order is not in correct state for pay operation!");
         orderStatus = OrderStatus.PAID;
     }
 
-    public void approve() {
+    public void approve() throws OrderDomainException {
         if (orderStatus != OrderStatus.PAID)
             throw new OrderDomainException("Order is not in correct state for approve operation!");
         orderStatus = OrderStatus.APPROVED;
     }
 
-    public void initCancel(List<String> failureMessages) {
+    public void initCancel(List<String> failureMessages) throws OrderDomainException {
         if (orderStatus != OrderStatus.PAID)
             throw new OrderDomainException("Order is not in correct state for initCancel operation!");
         orderStatus = OrderStatus.CANCELLING;
         updateFailureMessages(failureMessages);
     }
 
-    public void cancel(List<String> failureMessages) {
+    public void cancel(List<String> failureMessages) throws OrderDomainException {
         if (!(orderStatus == OrderStatus.CANCELLING || orderStatus == OrderStatus.PENDING))
             throw new OrderDomainException("Order is not in correct state for cancel operation!");
         orderStatus = OrderStatus.CANCELLED;
