@@ -23,24 +23,23 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         return new Builder();
     }
 
-    public Product getProduct() {
-        return product;
+    public Product getProduct() { return product; }
+
+    public Money getPrice() { return price; }
+
+    public Money getSubtotal() { return subtotal; }
+
+    public int getQuantity() { return quantity; }
+
+    public OrderId getOrderId() { return orderId; }
+
+    public void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
+        this.orderId = orderId;
+        super.setId(orderItemId);
     }
 
-    public Money getPrice() {
-        return price;
-    }
-
-    public Money getSubtotal() {
-        return subtotal;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public OrderId getOrderId() {
-        return orderId;
+    public boolean isPriceValid() {
+        return price.isGreaterThanZero() && price.equals(product.getPrice()) && price.multiply(quantity).equals(subtotal);
     }
 
     public static final class Builder {

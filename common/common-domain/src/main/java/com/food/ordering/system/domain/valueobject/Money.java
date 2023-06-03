@@ -6,7 +6,8 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class Money {
-    private final BigDecimal amount;
+    public static final Money      ZERO = new Money(BigDecimal.ZERO);
+    private final       BigDecimal amount;
 
     public Money(BigDecimal amount) {
         this.amount = amount;
@@ -28,8 +29,8 @@ public class Money {
         return operation(money, this.amount::subtract);
     }
 
-    public Money multiply(Money money) {
-        return operation(money, this.amount::multiply);
+    public Money multiply(int multiplier) {
+        return operation(new Money(new BigDecimal(multiplier)), this.amount::multiply);
     }
 
     public BigDecimal getAmount() {
