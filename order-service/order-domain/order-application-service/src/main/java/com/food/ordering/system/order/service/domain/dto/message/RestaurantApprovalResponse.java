@@ -10,7 +10,7 @@ import java.time.Instant;
 @Builder
 @AllArgsConstructor
 @ToString
-public record PaymentApprovalResponse(
+public record RestaurantApprovalResponse(
         String id,
         String sagaId,
         String orderId,
