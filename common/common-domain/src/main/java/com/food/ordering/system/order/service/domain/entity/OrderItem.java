@@ -19,7 +19,7 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         quantity = builder.quantity;
     }
 
-    public static Builder newBuilder() {
+    public static Builder builder() {
         return new Builder();
     }
 
