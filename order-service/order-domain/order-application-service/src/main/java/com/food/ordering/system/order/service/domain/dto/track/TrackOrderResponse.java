@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 public record TrackOrderResponse(
-        @NotNull UUID orderTackingId,
+        @NotNull UUID orderTrackingId,
         @NotNull OrderStatus orderStatus,
         List<String> failureMessages
 ) { }
