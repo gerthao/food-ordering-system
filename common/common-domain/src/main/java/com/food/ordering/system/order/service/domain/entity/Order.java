@@ -36,26 +36,26 @@ public class Order extends AggregateRoot<OrderId> {
 
     public void pay() throws OrderDomainException {
         if (orderStatus != OrderStatus.PENDING)
-            throw new OrderDomainException("Order is not in correct state for pay operation!");
+            throw new OrderDomainException("Order is not in correct state for pay operation.");
         orderStatus = OrderStatus.PAID;
     }
 
     public void approve() throws OrderDomainException {
         if (orderStatus != OrderStatus.PAID)
-            throw new OrderDomainException("Order is not in correct state for approve operation!");
+            throw new OrderDomainException("Order is not in correct state for approve operation.");
         orderStatus = OrderStatus.APPROVED;
     }
 
     public void initCancel(List<String> failureMessages) throws OrderDomainException {
         if (orderStatus != OrderStatus.PAID)
-            throw new OrderDomainException("Order is not in correct state for initCancel operation!");
+            throw new OrderDomainException("Order is not in correct state for initCancel operation.");
         orderStatus = OrderStatus.CANCELLING;
         updateFailureMessages(failureMessages);
     }
 
     public void cancel(List<String> failureMessages) throws OrderDomainException {
         if (!(orderStatus == OrderStatus.CANCELLING || orderStatus == OrderStatus.PENDING))
-            throw new OrderDomainException("Order is not in correct state for cancel operation!");
+            throw new OrderDomainException("Order is not in correct state for cancel operation.");
         orderStatus = OrderStatus.CANCELLED;
         updateFailureMessages(failureMessages);
     }
@@ -91,7 +91,7 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     private void validateItemsPrice() throws OrderDomainException {
-        var orderItemsTotal = items.parallelStream().map(item -> {
+        var orderItemsTotal = items.stream().map(item -> {
             validateItemPrice(item);
             return item.getSubtotal();
         }).reduce(Money.ZERO, Money::add);
@@ -100,8 +100,8 @@ public class Order extends AggregateRoot<OrderId> {
             throw new OrderDomainException(
                     MessageFormat.format(
                             "Total price: {0} is not equal to order items total: {1}",
-                            price.getAmount(),
-                            orderItemsTotal.getAmount()
+                            price.amount(),
+                            orderItemsTotal.amount()
                     )
             );
     }
@@ -111,7 +111,7 @@ public class Order extends AggregateRoot<OrderId> {
             throw new OrderDomainException(
                     MessageFormat.format(
                             "Order item price: {0} is not valid for product {1}",
-                            item.getPrice().getAmount(),
+                            item.getPrice().amount(),
                             item.getProduct().getId().getValue()
                     )
             );

@@ -47,18 +47,25 @@ public class OrderDataMapper {
                         .withProduct(new Product(new ProductId(item.productId())))
                         .withQuantity(item.quantity())
                         .withSubtotal(new Money(item.subtotal()))
+                        .withPrice(new Money(item.price()))
                         .build())
                 .collect(Collectors.toList());
     }
 
     private StreetAddress orderAddressToStreetAddress(OrderAddress address) {
-        return new StreetAddress(UUID.randomUUID(), address.street(), address.postalCode(), address.city());
+        return new StreetAddress(
+                UUID.randomUUID(),
+                address.street(),
+                address.postalCode(),
+                address.city()
+        );
     }
 
-    public CreateOrderResponse orderToCreateOrderResponse(Order order) {
+    public CreateOrderResponse orderToCreateOrderResponse(Order order, String message) {
         return CreateOrderResponse.builder()
                 .orderTrackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
+                .message(message)
                 .build();
     }
 

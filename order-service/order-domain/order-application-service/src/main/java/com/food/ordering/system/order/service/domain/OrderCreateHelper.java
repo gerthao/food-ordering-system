@@ -47,19 +47,18 @@ public class OrderCreateHelper {
     private Restaurant checkRestaurant(CreateOrderCommand createOrderCommand) {
         var restaurant      = orderDataMapper.createOrderCommandToRestaurant(createOrderCommand);
         var maybeRestaurant = restaurantRepository.findRestaurantInformation(restaurant);
-        if (maybeRestaurant.isEmpty()) {
+
+        return maybeRestaurant.orElseThrow(() -> {
             log.warn(MessageFormat.format("Could not find customer with restaurant id: {0}", createOrderCommand.restaurantId()));
-            throw new OrderDomainException(MessageFormat.format("Could not find restaurant with restaurant id: {0}", createOrderCommand.restaurantId()));
-        }
-        return maybeRestaurant.get();
+            return new OrderDomainException(MessageFormat.format("Could not find restaurant with restaurant id: {0}", createOrderCommand.restaurantId()));
+        });
     }
 
     private void checkCustomer(UUID customerId) throws OrderDomainException {
-        var maybeCustomer = customerRepository.findCustomer(customerId);
-        if (maybeCustomer.isEmpty()) {
+        customerRepository.findCustomer(customerId).orElseThrow(() -> {
             log.warn(MessageFormat.format("Could not find customer with customer id: {0}", customerId));
-            throw new OrderDomainException(MessageFormat.format("Could not find customer with customer id: {0}", customerId));
-        }
+            return new OrderDomainException(MessageFormat.format("Could not find customer with customer id: {0}", customerId));
+        });
     }
 
     private Order saveOrder(Order order) {

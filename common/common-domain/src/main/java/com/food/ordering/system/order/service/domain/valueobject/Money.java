@@ -5,20 +5,15 @@ import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.function.Function;
 
-public class Money {
-    public static final Money      ZERO = new Money(BigDecimal.ZERO);
-    private final       BigDecimal amount;
-
-    public Money(BigDecimal amount) {
-        this.amount = amount;
-    }
+public record Money(BigDecimal amount) {
+    public static final Money ZERO = new Money(BigDecimal.ZERO);
 
     public boolean isGreaterThanZero() {
         return this.amount != null && this.amount.compareTo(BigDecimal.ZERO) > 0;
     }
 
     public boolean isGreaterThan(Money money) {
-        return this.amount != null && this.amount.compareTo(money.getAmount()) > 0;
+        return this.amount != null && this.amount.compareTo(money.amount()) > 0;
     }
 
     public Money add(Money money) {
@@ -33,10 +28,6 @@ public class Money {
         return operation(new Money(new BigDecimal(multiplier)), this.amount::multiply);
     }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,17 +36,12 @@ public class Money {
         return Objects.equals(amount, money.amount);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(amount);
-    }
-
     private BigDecimal setScale(BigDecimal input) {
         return input.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     private Money operation(Money money, Function<BigDecimal, BigDecimal> op) {
-        var resultingAmount = setScale(op.apply(money.getAmount()));
+        var resultingAmount = setScale(op.apply(money.amount()));
         return new Money(resultingAmount);
     }
 }
