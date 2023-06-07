@@ -1,2 +1,2 @@
-./docker-compose/volumes/kafka
-./docker-compose/volumes/zookeeper
+docker-compose/volumes/kafka
+docker-compose/volumes/zookeeper
