@@ -1,7 +1,6 @@
-package com.food.ordering.system.kakfa.producer.service.impl;
+package com.food.ordering.system.kakfa.producer.service;
 
 import com.food.ordering.system.kakfa.producer.exception.KafkaProducerException;
-import com.food.ordering.system.kakfa.producer.service.KafkaProducer;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.specific.SpecificRecordBase;
