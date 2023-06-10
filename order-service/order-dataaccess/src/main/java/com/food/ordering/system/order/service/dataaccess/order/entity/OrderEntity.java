@@ -27,11 +27,11 @@ public class OrderEntity {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-    
+
     private String failureMessage;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    private OrderAddressEntity orderAddressEntity;
+    private OrderAddressEntity address;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItemEntity> items;
