@@ -11,11 +11,8 @@ import org.springframework.transaction.event.TransactionalEventListener;
 public class OrderCreatedEventApplicationListener {
     private final OrderCreatedPaymentRequestMessagePublisher messagePublisher;
 
-
     public OrderCreatedEventApplicationListener(OrderCreatedPaymentRequestMessagePublisher messagePublisher) { this.messagePublisher = messagePublisher; }
 
     @TransactionalEventListener
-    void process(OrderCreatedEvent event) {
-
-    }
+    void process(OrderCreatedEvent event) { }
 }

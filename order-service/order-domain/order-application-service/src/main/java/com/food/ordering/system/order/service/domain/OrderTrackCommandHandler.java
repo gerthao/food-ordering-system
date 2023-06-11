@@ -15,7 +15,6 @@ import java.text.MessageFormat;
 @Slf4j
 @Component
 public class OrderTrackCommandHandler {
-
     private final OrderDataMapper orderDataMapper;
     private final OrderRepository orderRepository;
 

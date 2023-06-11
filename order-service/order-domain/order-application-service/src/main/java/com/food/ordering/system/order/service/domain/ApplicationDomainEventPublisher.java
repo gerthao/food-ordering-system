@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class ApplicationDomainEventPublisher implements ApplicationEventPublisherAware, DomainEventPublisher<OrderCreatedEvent> {
-
     private ApplicationEventPublisher eventPublisher;
 
     @Override
@@ -21,6 +20,6 @@ public class ApplicationDomainEventPublisher implements ApplicationEventPublishe
     @Override
     public void publish(OrderCreatedEvent domainEvent) {
         this.eventPublisher.publishEvent(domainEvent);
-        log.info("OrderCreateEvent is published for order id : {}", domainEvent.getOrder().getId().getValue());
+        log.info("OrderCreateEvent is published for order id: {}", domainEvent.getOrder().getId().getValue());
     }
 }

@@ -17,15 +17,15 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     public OrderRepositoryImpl(OrderJpaRepository repository, OrderDataAccessMapper mapper) {
         this.repository = repository;
-        this.mapper = mapper;
+        this.mapper     = mapper;
     }
 
     @Override
     public Order save(Order order) {
         return Stream.of(order)
-                .map(mapper::orderToOrderEntity)
+                .map(mapper::toOrderEntity)
                 .map(repository::save)
-                .map(mapper::orderEntityToOrder)
+                .map(mapper::toOrder)
                 .findFirst()
                 .get();
     }
@@ -33,6 +33,6 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public Optional<Order> findByTrackingId(TrackingId trackingId) {
         return repository.findByTrackingId(trackingId.getValue())
-                .map(mapper::orderEntityToOrder);
+                .map(mapper::toOrder);
     }
 }
