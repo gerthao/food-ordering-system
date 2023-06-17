@@ -1,6 +1,5 @@
 package com.food.ordering.system.kafka.consumer.config;
 
-
 import com.food.ordering.system.kafka.config.data.KafkaConfigData;
 import com.food.ordering.system.kafka.config.data.KafkaConsumerConfigData;
 import org.apache.avro.specific.SpecificRecordBase;
@@ -24,7 +23,7 @@ public class KafkaConsumerConfig<K extends Serializable, V extends SpecificRecor
     private final KafkaConsumerConfigData kafkaConsumerConfigData;
 
     public KafkaConsumerConfig(KafkaConfigData kafkaConfigData, KafkaConsumerConfigData kafkaConsumerConfigData) {
-        this.kafkaConfigData = kafkaConfigData;
+        this.kafkaConfigData         = kafkaConfigData;
         this.kafkaConsumerConfigData = kafkaConsumerConfigData;
     }
 
