@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 @Slf4j
 @Component
@@ -23,11 +23,12 @@ public class KafkaProducerImpl<K extends Serializable, V extends SpecificRecordB
     }
 
     @Override
-    public void send(String topicName, K key, V message, Consumer<SendResult<K, V>> callback) throws KafkaProducerException {
+    public void send(String topicName, K key, V message, BiConsumer<SendResult<K, V>, Throwable> callback) throws KafkaProducerException {
         log.info("Sending message={} to topic={}", message, topicName);
+
         kafkaTemplate
                 .send(topicName, key, message)
-                .thenAccept(callback)
+                .whenComplete(callback)
                 .exceptionally(e -> {
                     log.error("Error on kafka producer with key: {}, message: {}, and exception: {}", key, message, e.getMessage());
                     throw new KafkaProducerException(MessageFormat.format("Error on kafka producer with key: {0} and message: {1}", key, message));
