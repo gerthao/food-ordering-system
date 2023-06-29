@@ -1,10 +1,14 @@
 package com.food.ordering.system.order.service.messaging.mapper;
 
 import com.food.ordering.system.kafka.order.avro.model.*;
+import com.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
+import com.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
 import com.food.ordering.system.order.service.domain.event.OrderPaidEvent;
+import com.food.ordering.system.order.service.domain.valueobject.OrderApprovalStatus;
+import com.food.ordering.system.order.service.domain.valueobject.PaymentStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -58,6 +62,19 @@ public class OrderMessagingDataMapper {
                 .build();
     }
 
+    public PaymentResponse toPaymentResponse(PaymentResponseAvroModel model) {
+        return PaymentResponse.builder()
+                .id(model.getId().toString())
+                .sagaId(model.getSagaId().toString())
+                .paymentId(model.getPaymentId().toString())
+                .orderId(model.getOrderId().toString())
+                .price(model.getPrice())
+                .createdAt(model.getCreatedAt())
+                .paymentStatus(PaymentStatus.valueOf(model.getPaymentStatus().name()))
+                .failureMessages(model.getFailureMessages())
+                .build();
+    }
+
     private List<Product> getProducts(Order order) {
         return order.getItems().stream().map(item ->
                 Product.newBuilder()
@@ -65,5 +82,16 @@ public class OrderMessagingDataMapper {
                         .setQuantity(item.getQuantity())
                         .build()
         ).collect(Collectors.toList());
+    }
+
+    public RestaurantApprovalResponse toRestaurantApprovalResponse(RestaurantApprovalResponseAvroModel r) {
+        return RestaurantApprovalResponse.builder()
+                .id(r.getId().toString())
+                .sagaId(r.getId().toString())
+                .restaurantId(r.getRestaurantId().toString())
+                .orderId(r.getOrderId().toString())
+                .createdAt(r.getCreatedAt())
+                .orderApprovalStatus(OrderApprovalStatus.valueOf(r.getOrderApprovalStatus().name()))
+                .build();
     }
 }

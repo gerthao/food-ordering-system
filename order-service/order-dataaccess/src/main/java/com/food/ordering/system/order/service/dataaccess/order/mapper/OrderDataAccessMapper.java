@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Component
 public class OrderDataAccessMapper {
 
-    public static final String FAILURE_MESSAGE_DELIMITER = ",";
+    public static final String FAILURE_MESSAGE_DELIMITER = ", ";
 
     public OrderEntity toOrderEntity(Order order) {
         var orderEntity = OrderEntity.builder()
@@ -34,7 +34,7 @@ public class OrderDataAccessMapper {
 
         orderEntity.getAddress().setOrder(orderEntity);
         orderEntity.getItems().forEach(itemEntity -> itemEntity.setOrder(orderEntity));
- 
+
         return orderEntity;
     }
 

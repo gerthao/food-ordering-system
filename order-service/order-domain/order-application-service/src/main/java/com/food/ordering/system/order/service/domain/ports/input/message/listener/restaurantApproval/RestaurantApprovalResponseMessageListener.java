@@ -5,5 +5,5 @@ import com.food.ordering.system.order.service.domain.dto.message.RestaurantAppro
 public interface RestaurantApprovalResponseMessageListener {
     void orderApproved(RestaurantApprovalResponse paymentResponse);
 
-    void paymentCancelled(RestaurantApprovalResponse paymentResponse);
+    void orderRejected(RestaurantApprovalResponse paymentResponse);
 }

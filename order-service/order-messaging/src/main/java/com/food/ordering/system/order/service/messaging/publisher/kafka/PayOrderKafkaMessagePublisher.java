@@ -18,15 +18,15 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
     private final OrderKafkaMessageHelper messageHelper;
 
     public PayOrderKafkaMessagePublisher(OrderMessagingDataMapper mapper, OrderServiceConfigData configData, KafkaProducer<String, RestaurantApprovalRequestAvroModel> producer, OrderKafkaMessageHelper messageHelper) {
-        this.mapper = mapper;
-        this.configData = configData;
-        this.producer = producer;
+        this.mapper        = mapper;
+        this.configData    = configData;
+        this.producer      = producer;
         this.messageHelper = messageHelper;
     }
 
     @Override
     public void publish(OrderPaidEvent domainEvent) {
-        var orderId = domainEvent.getOrder().getId();
+        var orderId                            = domainEvent.getOrder().getId();
         var restaurantApprovalRequestAvroModel = mapper.toPaymentRequestAvroModel(domainEvent);
 
         try {
@@ -36,7 +36,7 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
             );
             log.info("RestaurantApprovalRequestAvroModel sent to Kafka for order id: {}", restaurantApprovalRequestAvroModel.getOrderId());
         } catch (Exception e) {
-            log.error("Error while sending RestaurantApprovalRequestAvroModel message to kakfa with order id: {}, error: {}", orderId, e.getMessage());
+            log.error("Error while sending RestaurantApprovalRequestAvroModel message to kafka with order id: {}, error: {}", orderId, e.getMessage());
         }
     }
 }

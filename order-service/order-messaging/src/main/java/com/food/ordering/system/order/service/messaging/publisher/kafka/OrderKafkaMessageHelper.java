@@ -21,7 +21,7 @@ public class OrderKafkaMessageHelper {
                 );
             } else {
                 log.info(
-                        "Received successful response from Kafka for order id: {}, topic: {}, partition: {}, offset: {}, timestamp: {}",
+                        "Received successful response from kafka for order id: {}, topic: {}, partition: {}, offset: {}, timestamp: {}",
                         orderId,
                         recordMetadata.topic(),
                         recordMetadata.partition(),
@@ -44,7 +44,7 @@ public class OrderKafkaMessageHelper {
             } else {
                 var recordMetadata = sendResult.getRecordMetadata();
                 log.info(
-                        "Received successful response from Kafka for order id: {}, topic: {}, partition: {}, offset: {}, timestamp: {}",
+                        "Received successful response from kafka for order id: {}, topic: {}, partition: {}, offset: {}, timestamp: {}",
                         orderId,
                         recordMetadata.topic(),
                         recordMetadata.partition(),
